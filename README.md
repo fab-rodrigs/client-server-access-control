@@ -63,8 +63,9 @@ Este tutorial descreve como iniciar e testar o sistema Cliente/Servidor de contr
 Abra o **primeiro terminal** na pasta `\src` e execute o servidor:
 ```bash
 python server.py
-
+```
 ### Passo 2: Iniciar o Cliente
 Abra o **segundo terminal** na pasta `\src` e execute o cliente:
 ```bash
 python client.py
+```
