@@ -55,11 +55,16 @@ Este tutorial descreve como iniciar e testar o sistema Cliente/Servidor de contr
 
 ## Pré-requisitos
 * Python 3.x instalado.
-* Os arquivos `servidor.py`, `cliente.py`, `protocolo.py`, e `dados_servidor.py` devem estar no mesmo diretório.
+* Os arquivos `server.py`, `client.py`, `protocol.py`, e `server_data.py` devem estar no mesmo diretório.
 
 ## 1. Configuração e Inicialização
 
 ### Passo 1: Iniciar o Servidor
-Abra o **primeiro terminal** e execute o servidor:
+Abra o **primeiro terminal** na pasta `\src` e execute o servidor:
 ```bash
-python servidor.py
+python server.py
+
+### Passo 2: Iniciar o Cliente
+Abra o **segundo terminal** na pasta `\src` e execute o cliente:
+```bash
+python client.py
