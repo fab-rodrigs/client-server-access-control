@@ -12,10 +12,6 @@ ARQUIVO_CREDENCIAS = 'credentials.txt'
 ARQUIVO_REGISTRO = 'register_acess.txt'
 
 def carregar_credenciais():
-    """
-    Lê o arquivo de credenciais e retorna um dicionário para busca rápida.
-    A chave do dicionário será a CREDENCIAL (Código do Usuário).
-    """
     credenciais = {}
     try:
         with open(ARQUIVO_CREDENCIAS, 'r') as f:
@@ -37,18 +33,11 @@ def carregar_credenciais():
     return credenciais
 
 def adicionar_nova_credencial(codigo, nome, nivel_acesso):
-    """
-    Adiciona uma nova credencial ao arquivo.
-    """
     with open(ARQUIVO_CREDENCIAS, 'a') as f:
         linha = f"{codigo},{nome},{nivel_acesso}\n"
         f.write(linha)
 
 def gerar_nova_credencial(nivel_cadastro):
-    """
-    Gera um novo código de 4 dígitos (1000 a 9999) [cite: 84] e adiciona.
-    O nível de acesso é definido pela porta onde o cadastro ocorreu[cite: 21].
-    """
     credenciais_atuais = carregar_credenciais()
     
     # Simplesmente pega a próxima credencial disponível ou gera uma aleatória
@@ -59,7 +48,6 @@ def gerar_nova_credencial(nivel_cadastro):
         novo_codigo = 1000 # Primeiro código
         
     if novo_codigo > 9999:
-        # Em um sistema real, trataria sobrecarga, aqui vamos forçar 9999 para simplificar
         return None, "Limite de credenciais atingido"
         
     # O nome será preenchido pelo cliente na próxima requisição (aqui é só placeholder)
@@ -72,11 +60,6 @@ def gerar_nova_credencial(nivel_cadastro):
 # --- 2. GESTÃO DE REGISTRO ---
 
 def registrar_acesso(data_hora, porta_id, codigo_usuario, resultado):
-    """
-    Registra uma tentativa de acesso no ARQUIVO_REGISTRO[cite: 40].
-    Formato: dd/mm/aaaa hh:mm:ss, identificação da porta, identificação do usuário, autorizado ou negado.
-    """
-    
     # Ajusta o resultado para 'autorizado' ou 'negado'
     resultado_str = "autorizado" if resultado == 1 else "negado"
     

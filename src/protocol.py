@@ -35,12 +35,7 @@ TAM_MSG_TOTAL = TAM_CABECALHO_E_DATA_BYTES + TAM_NOME_BYTES # 58 bytes
 # --- 2. FUNÇÕES DE EMPACOTAMENTO ---
 
 def empacotar_requisicao_cliente(tipo_msg, porta, nome_usuario, credencial):
-    """
-    Empacota os dados da requisição do cliente em uma sequência de 58 bytes.
-    A autorização é sempre 0 (NEGADO) na requisição do cliente.
-    """
-    
-    # 1. Obter a Data e Hora atual
+
     agora = datetime.datetime.now()
     dia, mes, ano = agora.day, agora.month, agora.year
     hora, minuto, segundo = agora.hour, agora.hour, agora.second
@@ -80,7 +75,7 @@ def empacotar_requisicao_cliente(tipo_msg, porta, nome_usuario, credencial):
     print(data_hora)
 
     # --- 3. Serialização para Bytes (8 bytes) ---
-    # Usamos 3 bytes para o cabeçalho e 5 bytes para data/hora (total de 8)
+    # 3 bytes para o cabeçalho e 5 bytes para data/hora (total de 8)
     
     # 3 bytes para o cabeçalho (24 bits) - Big Endian
     dados_controle = cabecalho.to_bytes(3, 'big')

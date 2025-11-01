@@ -7,18 +7,14 @@
 import socket
 import sys
 
-# Importa os módulos criados
 import protocol
-from server_data import ARQUIVO_CREDENCIAS # Apenas para referência no tutorial
+from server_data import ARQUIVO_CREDENCIAS
 
-# --- Configurações de Rede ---
-HOST = '127.0.0.1'  # Deve ser o mesmo endereço do servidor
-PORT = 65432        # Deve ser a mesma porta do servidor
+# rede
+HOST = '127.0.0.1'  # mesmo endereço do servidor
+PORT = 65432        # mesma porta do servidor
 
 def obter_identificacao_porta():
-    """
-    Pede ao usuário para informar qual porta este cliente está simulando.
-    """
     while True:
         try:
             porta_str = input("Simulando qual Porta (P1 a P5)? Digite o número (1 a 5): ")
@@ -31,9 +27,6 @@ def obter_identificacao_porta():
             print("Entrada inválida. Digite apenas o número da porta.")
 
 def obter_dados_usuario(porta_id):
-    """
-    Obtém o nome, credencial e tipo de requisição (Acesso ou Cadastro) do usuário.
-    """
     nome = input("Digite seu Nome: ").strip()
     
     while len(nome) > protocol.TAM_NOME_BYTES or not nome:
@@ -55,16 +48,12 @@ def obter_dados_usuario(porta_id):
         elif acao == 'C':
             print(f"Atenção: Seu nível de acesso será definido pela Porta P{porta_id}.")
             tipo_msg = 1 # CADASTRO
-            credencial = 0 # Credencial zerada na requisição de cadastro [cite: 85]
+            credencial = 0
             return tipo_msg, nome, credencial
         else:
             print("Opção inválida. Escolha 'A' para Acessar ou 'C' para Cadastrar-se.")
 
-def iniciar_cliente():
-    """
-    Lógica principal de conexão, envio e recebimento de dados do cliente.
-    """
-    
+def iniciar_cliente():    
     # 1. OBTER DADOS INICIAIS
     porta_id = obter_identificacao_porta()
     tipo_msg, nome, credencial_envio = obter_dados_usuario(porta_id)
@@ -74,8 +63,7 @@ def iniciar_cliente():
 
     # 2. CONFIGURAR E CONECTAR O SOCKET
     try:
-        # Usa SOCK_STREAM (TCP)
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # SOCK_STREAM (TCP)
         client_socket.connect((HOST, PORT))
     except Exception as e:
         print(f"ERRO: Não foi possível conectar ao servidor em {HOST}:{PORT}. Certifique-se de que o servidor está rodando.")
@@ -84,16 +72,15 @@ def iniciar_cliente():
 
     # 3. EMPACOTAR E ENVIAR DADOS
     try:
-        # Cria o pacote de 58 bytes
+        # criando pacote de 58 bytes
         requisicao_bytes = protocol.empacotar_requisicao_cliente(
             tipo_msg, porta_id, nome, credencial_envio
         )
         
-        # Envia a requisição
         client_socket.sendall(requisicao_bytes)
         
         # 4. RECEBER A RESPOSTA
-        # O cliente espera a mesma quantidade de bytes (58)
+        # cliente espera a mesma quantidade de bytes (58)
         resposta_bytes = client_socket.recv(protocol.TAM_MSG_TOTAL)
         
         if len(resposta_bytes) != protocol.TAM_MSG_TOTAL:
@@ -106,14 +93,12 @@ def iniciar_cliente():
         print("-" * 40)
         
         if tipo_msg == 0: # ACESSO
-            # Resposta para ACESSO: verifica o campo Autorização
             if resposta_dados['autorizacao'] == 1:
                 print(f"✅ ACESSO AUTORIZADO! Porta P{porta_id} aberta.")
             else:
                 print("❌ ACESSO NEGADO! Credencial ou nível insuficiente.")
                 
         elif tipo_msg == 1: # CADASTRO
-            # Resposta para CADASTRO: verifica Autorização e pega a Credencial gerada
             if resposta_dados['autorizacao'] == 1:
                 nova_credencial = resposta_dados['credencial']
                 print(f"✅ CADASTRO REALIZADO COM SUCESSO na Porta P{porta_id}!")
@@ -127,7 +112,7 @@ def iniciar_cliente():
         
     finally:
         # 6. ENCERRAR CONEXÃO
-        client_socket.close() # Conexões são encerradas após a troca de mensagens.
+        client_socket.close()
         print("-" * 40)
         print("Conexão encerrada.")
 

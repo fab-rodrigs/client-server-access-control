@@ -21,11 +21,7 @@ MAX_CONEXOES = 5    # Número máximo de clientes esperando na fila
 # Inicializa o banco de dados (arquivos TXT)
 server_data.carregar_credenciais()
 
-def processar_requisicao(conexao, endereco):
-    """
-    Função principal que lida com a requisição de um cliente específico.
-    """
-    
+def processar_requisicao(conexao, endereco):    
     print(f"[{datetime.now().strftime('%H:%M:%S')}] Conexão estabelecida com {endereco}")
 
     # Garante que a conexão será encerrada ao final
@@ -107,12 +103,12 @@ def processar_requisicao(conexao, endereco):
     except Exception as e:
         print(f"[{endereco}] Erro no processamento da requisição: {e}")
         # Comportamento em caso de perda de conexão (como solicitado na especificação): 
-        # Simplesmente encerra a thread para esta conexão.
+        # Simplesmente encerra a thread para esta conexão
         
     finally:
         # 6. ENCERRAR CONEXÃO
         print(f"[{endereco}] Conexão encerrada.")
-        conexao.close() # Conexões são encerradas após a troca de mensagens[cite: 74].
+        conexao.close() # Conexões são encerradas após a troca de mensagens
 
 def iniciar_servidor():
     """
