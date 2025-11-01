@@ -3,7 +3,7 @@ Projeto da Disciplina de Redes de Computadores.
 
 # DOCUMENTAÇÃO DO PROTOCOLO DE CONTROLE DE ACESSO (RCP22108)
 
-## [cite_start]1. Formato da Mensagem (Serialização Bitwise) [cite: 75]
+## Formato da Mensagem (Serialização Bitwise)
 
 A mensagem possui um tamanho fixo de **58 bytes** (464 bits) e é serializada usando operações bitwise e struct (para o campo de Nome).
 
@@ -49,7 +49,7 @@ O sistema implementa tratamento de erros em dois níveis:
 
 ---
 
-# MINITUTORIAL: FUNCIONAMENTO DO SISTEMA (Artefato 3)
+# TUTORIAL: FUNCIONAMENTO DO SISTEMA
 
 Este tutorial descreve como iniciar e testar o sistema Cliente/Servidor de controle de acesso.
 
